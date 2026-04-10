@@ -52,3 +52,14 @@ vignettes/*.pdf
 
 .DS_Store
 .idea
+.Rproj.user
+
+# R check artifacts
+..Rcheck/
+
+# Local staging data (never commit)
+data/pep/
+
+# renv
+renv/
+renv.lock
