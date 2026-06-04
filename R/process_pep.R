@@ -352,6 +352,32 @@ pull_components <- function(years = 2000:as.integer(format(Sys.Date(), "%Y"))) {
 }
 
 
+# Aggregate county-level PEP data to state and national level by summing counties.
+# Returns state rows (2-digit geoid) and national row (geoid = "00").
+# Only includes the 50 states + DC (state FIPS < 60); excludes territories.
+# All PEP variables use NA for agg_var, so a simple sum is appropriate.
+#' @keywords internal
+.aggregate_to_state_national <- function(county_data) {
+  county_50states <- county_data |>
+    dplyr::filter(
+      nchar(geoid) == 5,
+      as.integer(substr(geoid, 1, 2)) < 60
+    )
+
+  state_data <- county_50states |>
+    dplyr::mutate(geoid = substr(geoid, 1, 2)) |>
+    dplyr::group_by(geoid, year, variable) |>
+    dplyr::summarise(value = sum(value, na.rm = TRUE), agg_var = NA_real_, .groups = "drop")
+
+  national_data <- state_data |>
+    dplyr::mutate(geoid = "00") |>
+    dplyr::group_by(geoid, year, variable) |>
+    dplyr::summarise(value = sum(value, na.rm = TRUE), agg_var = NA_real_, .groups = "drop")
+
+  dplyr::bind_rows(state_data, national_data)
+}
+
+
 # Build a county name -> geoid crosswalk using tigris (needed for Excel files
 # that identify counties by name rather than FIPS).
 #' @keywords internal

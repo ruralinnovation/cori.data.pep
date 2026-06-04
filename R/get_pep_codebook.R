@@ -1,7 +1,10 @@
 #' Get the cori.data.pep variable codebook
 #'
 #' Returns documentation for all variables produced by the CORI PEP processing
-#' pipeline.
+#' pipeline. All variables are available at three geographic levels: county
+#' (5-digit FIPS), state (2-digit FIPS), and national (`"00"`). State and
+#' national values are derived by summing the 50 states + DC; territories
+#' (Puerto Rico, etc.) are excluded.
 #'
 #' @return A data frame with columns: `variable`, `label`, `unit`, `nominal`,
 #'   `notes`.

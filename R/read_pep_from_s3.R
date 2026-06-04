@@ -8,8 +8,8 @@
 #' @param variables Character vector. Variables to return. Default: all.
 #'   See [get_pep_codebook()] for names.
 #' @param years Integer vector. Years to return. Default: all.
-#' @param geoids Character vector. 5-digit county FIPS codes to return.
-#'   Default: all.
+#' @param geoids Character vector. Geoids to return: 5-digit county FIPS,
+#'   2-digit state FIPS, or `"00"` for national. Default: all.
 #' @param s3_bucket Character. S3 bucket name. Default: `"cori.data.pep"`.
 #' @param s3_path_prefix Character. Optional prefix matching the one used in
 #'   [write_pep_processed_to_s3()], e.g. `"test/"`. Default: `""`.
