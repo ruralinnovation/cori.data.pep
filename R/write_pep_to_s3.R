@@ -64,7 +64,12 @@ write_pep_processed_to_s3 <- function(
   message("Pulling components of change...")
   comp <- pull_components(years)
 
-  processed   <- dplyr::bind_rows(pop, pop16, comp)
+  county_data <- dplyr::bind_rows(pop, pop16, comp)
+
+  message("Aggregating to state and national level...")
+  agg_data <- .aggregate_to_state_national(county_data)
+
+  processed   <- dplyr::bind_rows(county_data, agg_data)
   vintage     <- as.character(max(processed$year, na.rm = TRUE))
   vintage_tag <- sprintf("vintage_%s", vintage)
 

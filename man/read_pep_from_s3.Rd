@@ -22,8 +22,8 @@ See \code{\link[=get_pep_codebook]{get_pep_codebook()}} for names.}
 
 \item{years}{Integer vector. Years to return. Default: all.}
 
-\item{geoids}{Character vector. 5-digit county FIPS codes to return.
-Default: all.}
+\item{geoids}{Character vector. Geoids to return: 5-digit county FIPS,
+2-digit state FIPS, or \code{"00"} for national. Default: all.}
 
 \item{s3_bucket}{Character. S3 bucket name. Default: \code{"cori.data.pep"}.}
 
