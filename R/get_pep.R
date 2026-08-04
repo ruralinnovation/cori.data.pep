@@ -63,7 +63,7 @@
 #'
 #' @export
 get_population <- function(
-    geography = c("all", "county", "state", "nation"),
+    geography = c("county", "state", "nation"),
     years     = NULL,
     geoids    = NULL,
     variables = NULL,
@@ -138,7 +138,7 @@ get_population <- function(
 #'
 #' @export
 get_population_change <- function(
-    geography = c("all", "county", "state", "nation"),
+    geography = c("county", "state", "nation"),
     years     = NULL,
     geoids    = NULL,
     variables = NULL,

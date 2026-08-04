@@ -31,7 +31,7 @@ Suggests:
     ggplot2,
     ggrepel,
     knitr,
-    rmarkdown,
+    markdown,
     scales,
     sf,
     tigris

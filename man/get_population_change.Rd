@@ -5,7 +5,7 @@
 \title{Get Census Bureau population change components}
 \usage{
 get_population_change(
-  geography = c("all", "county", "state", "nation"),
+  geography = c("county", "state", "nation"),
   years = NULL,
   geoids = NULL,
   variables = NULL,

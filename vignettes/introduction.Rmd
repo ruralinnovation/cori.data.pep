@@ -1,15 +1,15 @@
 ---
 title: "Introduction to cori.data.pep"
-output: rmarkdown::html_vignette
+
 vignette: >
   %\VignetteIndexEntry{Introduction to cori.data.pep}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  eval    = TRUE,
+  eval    = FALSE,
   echo    = TRUE,
   message = FALSE,
   warning = FALSE,

@@ -1,15 +1,15 @@
 ---
 title: "Rural Population Trends"
-output: rmarkdown::html_vignette
+
 vignette: >
   %\VignetteIndexEntry{Rural Population Trends}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  eval    = TRUE,
+  eval    = FALSE,
   echo    = TRUE,
   message = FALSE,
   warning = FALSE,

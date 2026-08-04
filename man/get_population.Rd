@@ -5,7 +5,7 @@
 \title{Get Census Bureau population estimates}
 \usage{
 get_population(
-  geography = c("all", "county", "state", "nation"),
+  geography = c("county", "state", "nation"),
   years = NULL,
   geoids = NULL,
   variables = NULL,
