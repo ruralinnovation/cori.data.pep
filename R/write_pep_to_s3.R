@@ -9,7 +9,7 @@
 #'
 #' @return Character. Current vintage tag (e.g., `"vintage_2023"`).
 #'
-#' @export
+#' @keywords internal
 latest_pep_vintage <- function(s3_bucket = "cori.data.pep", s3_path_prefix = "") {
   url <- sprintf(
     "https://s3.us-east-1.amazonaws.com/%s/%sdata_processed/_LATEST",
@@ -43,10 +43,9 @@ latest_pep_vintage <- function(s3_bucket = "cori.data.pep", s3_path_prefix = "")
 #'
 #' @return Invisibly, a named list: `$vintage` and `$n_rows`.
 #'
-#' @seealso [read_pep_from_s3()], [get_pep_codebook()]
+#' @seealso [get_population()], [get_pep_codebook()]
 #'
 #' @keywords internal
-#' @export
 write_pep_processed_to_s3 <- function(
     years          = 2000:as.integer(format(Sys.Date(), "%Y")),
     s3_bucket      = "cori.data.pep",

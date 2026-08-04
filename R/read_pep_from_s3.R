@@ -1,38 +1,20 @@
 #' Read processed PEP data from S3
 #'
-#' Queries CORI's processed Population Estimates Program parquet files from S3
-#' using DuckDB. Returns long-format data — one row per geoid/year/variable.
+#' @description
+#' `r lifecycle::badge("deprecated")`
 #'
-#' @param vintage Character. Vintage to read, e.g. `"2023"`. Default: `"latest"`,
-#'   which reads the `_LATEST` pointer written by [write_pep_processed_to_s3()].
-#' @param variables Character vector. Variables to return. Default: all.
-#'   See [get_pep_codebook()] for names.
-#' @param years Integer vector. Years to return. Default: all.
-#' @param geoids Character vector. Geoids to return: 5-digit county FIPS,
-#'   2-digit state FIPS, or `"00"` for national. Default: all.
-#' @param s3_bucket Character. S3 bucket name. Default: `"cori.data.pep"`.
-#' @param s3_path_prefix Character. Optional prefix matching the one used in
-#'   [write_pep_processed_to_s3()], e.g. `"test/"`. Default: `""`.
+#' `read_pep_from_s3()` is deprecated. Use [get_population()] instead.
 #'
-#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`,
-#'   `agg_var`.
+#' @param vintage Passed to [get_population()].
+#' @param variables Passed to [get_population()].
+#' @param years Passed to [get_population()].
+#' @param geoids Passed to [get_population()].
+#' @param s3_bucket Ignored. No longer configurable in the public API.
+#' @param s3_path_prefix Ignored. No longer configurable in the public API.
 #'
-#' @seealso [latest_pep_vintage()], [get_pep_codebook()]
+#' @return A data frame. See [get_population()] for details.
 #'
-#' @examples
-#' \dontrun{
-#' # All data, latest vintage
-#' df <- read_pep_from_s3()
-#'
-#' # Total population, specific years
-#' df <- read_pep_from_s3(variables = "population", years = 2010:2023)
-#'
-#' # Migration components for specific counties
-#' df <- read_pep_from_s3(
-#'   variables = c("domestic_mig", "net_mig"),
-#'   geoids    = c("54011", "54025")
-#' )
-#' }
+#' @seealso [get_population()]
 #'
 #' @export
 read_pep_from_s3 <- function(
@@ -43,55 +25,22 @@ read_pep_from_s3 <- function(
     s3_bucket      = "cori.data.pep",
     s3_path_prefix = ""
 ) {
-
-  vintage_tag <- if (vintage == "latest") {
-    latest_pep_vintage(s3_bucket, s3_path_prefix)
-  } else {
-    if (!startsWith(vintage, "vintage_")) sprintf("vintage_%s", vintage) else vintage
-  }
-
-  con <- DBI::dbConnect(duckdb::duckdb())
-  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
-
-  DBI::dbExecute(con, "INSTALL httpfs; LOAD httpfs;")
-  DBI::dbExecute(con, "INSTALL aws;   LOAD aws;")
-  DBI::dbExecute(con, sprintf("SET temp_directory = '%s';", tempdir()))
-  DBI::dbExecute(con, "CREATE OR REPLACE SECRET s3_secret (
-    TYPE S3,
-    PROVIDER CREDENTIAL_CHAIN,
-    CHAIN 'env;config',
-    REGION 'us-east-1',
-    URL_STYLE 'path'
-  );")
-
-  glob  <- sprintf(
-    "s3://%s/%sdata_processed/%s/**/*.parquet",
-    s3_bucket, s3_path_prefix, vintage_tag
-  )
-  query <- sprintf(
-    "SELECT geoid, year, variable, value, agg_var FROM read_parquet('%s', hive_partitioning = true)",
-    glob
-  )
-
-  where <- character(0)
-  if (!is.null(geoids)) {
-    where <- c(where, sprintf("geoid IN (%s)", paste0("'", geoids, "'", collapse = ", ")))
-  }
-  if (!is.null(years)) {
-    where <- c(where, sprintf("year IN (%s)", paste(years, collapse = ", ")))
-  }
-  if (!is.null(variables)) {
-    where <- c(where, sprintf("variable IN (%s)", paste0("'", variables, "'", collapse = ", ")))
-  }
-  if (length(where) > 0) {
-    query <- paste(query, "WHERE", paste(where, collapse = " AND "))
-  }
-
-  DBI::dbGetQuery(con, query) |>
-    dplyr::mutate(
-      geoid   = as.character(geoid),
-      year    = as.integer(year),
-      value   = as.numeric(value),
-      agg_var = as.numeric(agg_var)
+  .Deprecated(
+    new     = "get_population",
+    package = "cori.data.pep",
+    msg     = paste0(
+      "`read_pep_from_s3()` is deprecated.\n",
+      "  Use `get_population()` for population and population_16plus.\n",
+      "  Use `get_population_change()` for births, deaths, and migration components.\n",
+      "  Note: `s3_bucket` and `s3_path_prefix` are no longer configurable in the public API."
     )
+  )
+  # Fall back to get_population() for backwards compatibility.
+  # Users requesting change variables will need to switch to get_population_change().
+  get_population(
+    years     = years,
+    geoids    = geoids,
+    variables = variables,
+    vintage   = vintage
+  )
 }

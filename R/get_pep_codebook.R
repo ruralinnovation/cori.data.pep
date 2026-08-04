@@ -1,15 +1,16 @@
 #' Get the cori.data.pep variable codebook
 #'
-#' Returns documentation for all variables produced by the CORI PEP processing
-#' pipeline. All variables are available at three geographic levels: county
-#' (5-digit FIPS), state (2-digit FIPS), and national (`"00"`). State and
-#' national values are derived by summing the 50 states + DC; territories
-#' (Puerto Rico, etc.) are excluded.
+#' Returns documentation for all variables available via [get_population()] and
+#' [get_population_change()]. All variables are available at three geographic
+#' levels: county (5-digit FIPS), state (2-digit FIPS), and national (`"00"`).
+#' State and national values are derived by summing the 50 states + DC;
+#' territories (Puerto Rico, etc.) are excluded.
 #'
-#' @return A data frame with columns: `variable`, `label`, `unit`, `nominal`,
-#'   `notes`.
+#' @return A data frame with columns: `variable`, `raw_variable`, `label`,
+#'   `unit`, `nominal`, `notes`.
+#'   `raw_variable` is the original name stored in S3 parquet files.
 #'
-#' @seealso [read_pep_from_s3()]
+#' @seealso [get_population()], [get_population_change()]
 #'
 #' @examples
 #' get_pep_codebook()
@@ -20,6 +21,17 @@ get_pep_codebook <- function() {
     stringsAsFactors = FALSE,
 
     variable = c(
+      "population",
+      "population_16plus",
+      "births",
+      "deaths",
+      "natural_change",
+      "domestic_migration",
+      "international_migration",
+      "net_migration"
+    ),
+
+    raw_variable = c(
       "population",
       "pop_16plus",
       "births",
@@ -41,16 +53,7 @@ get_pep_codebook <- function() {
       "Net migration"
     ),
 
-    unit = c(
-      "persons",
-      "persons",
-      "persons",
-      "persons",
-      "persons",
-      "persons",
-      "persons",
-      "persons"
-    ),
+    unit = rep("persons", 8),
 
     nominal = rep(FALSE, 8),
 

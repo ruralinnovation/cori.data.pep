@@ -1,5 +1,6 @@
 ^cori\.data\.pep\.Rproj$
 ^\.Rproj\.user$
 ^RELEASE_CALENDAR\.md$
+^REFACTOR_STATE\.md$
 ^renv\.lock$
 ^\.git$

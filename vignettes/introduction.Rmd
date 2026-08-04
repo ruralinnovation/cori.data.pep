@@ -37,7 +37,7 @@ All data are returned in long format: one row per `geoid / year / variable`.
 
 ```{r read-all}
 # Total population, all counties, all years
-pop <- read_pep_from_s3(variables = "population")
+pop <- get_population(geography = "county", variables = "population")
 dplyr::glimpse(pop)
 ```
 
@@ -45,8 +45,8 @@ Filter to specific variables, years, or counties:
 
 ```{r read-filtered}
 # Migration components for West Virginia counties
-wv_mig <- read_pep_from_s3(
-  variables = c("domestic_mig", "international_mig", "net_mig"),
+wv_mig <- get_population_change(
+  variables = c("domestic_migration", "international_migration", "net_migration"),
   geoids    = grep("^54", unique(pop$geoid), value = TRUE),
   years     = 2010:2025
 )
@@ -64,7 +64,7 @@ library(cori.charts)
 
 load_fonts()
 
-grafton_pop <- read_pep_from_s3(
+grafton_pop <- get_population(
   variables = "population",
   geoids    = "33009",
   years     = 2000:2025
