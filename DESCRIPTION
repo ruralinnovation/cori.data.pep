@@ -1,4 +1,4 @@
-Package: cori.data.s3.pep
+Package: cori.data.pep
 Type: Package
 Title: Access and Analyze Census Bureau Population Estimates
 Version: 0.1.0
