@@ -1,15 +1,15 @@
 ---
 title: "Rural Population Trends"
-output: rmarkdown::html_vignette
+
 vignette: >
   %\VignetteIndexEntry{Rural Population Trends}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  eval    = TRUE,
+  eval    = FALSE,
   echo    = TRUE,
   message = FALSE,
   warning = FALSE,
@@ -33,16 +33,16 @@ load_fonts()
 Population change is driven by two forces: natural change (births minus deaths) and migration (domestic and international). This chart shows how each component has contributed to Grafton County's population trajectory from 2000 to 2025.
 
 ```{r grafton-components, fig.alt="Stacked bar chart of Grafton County NH population components 2000-2025"}
-grafton <- read_pep_from_s3(
-  variables = c("natural_chg", "domestic_mig", "international_mig"),
+grafton <- get_population_change(
+  variables = c("natural_change", "domestic_migration", "international_migration"),
   geoids    = "33009",
   years     = 2000:2025
 )
 
 component_labels <- c(
-  natural_chg       = "Natural change",
-  domestic_mig      = "Domestic migration",
-  international_mig = "International migration"
+  natural_change          = "Natural change",
+  domestic_migration      = "Domestic migration",
+  international_migration = "International migration"
 )
 
 component_colors <- c(
@@ -85,7 +85,7 @@ library(ruraldefinitions)
 rural_xwalk <- ruraldefinitions::cbsa_2023 |>
   select(geoid, is_rural)
 
-pop <- read_pep_from_s3(
+pop <- get_population(
   variables = "population",
   years     = 2000:2025
 ) |>
@@ -124,8 +124,8 @@ ggplot(pop, aes(x = year, y = index, color = is_rural)) +
 For rural counties, understanding whether population change is driven by natural change or migration reveals fundamentally different policy levers. Below we show both components aggregated across all rural counties.
 
 ```{r rural-components, fig.alt="Stacked bar chart of rural population components 2000-2025"}
-rural_comp <- read_pep_from_s3(
-  variables = c("natural_chg", "net_mig"),
+rural_comp <- get_population_change(
+  variables = c("natural_change", "net_migration"),
   years     = 2000:2025
 ) |>
   left_join(rural_xwalk, by = "geoid") |>
@@ -133,8 +133,8 @@ rural_comp <- read_pep_from_s3(
   group_by(year, variable) |>
   summarise(value = sum(value, na.rm = TRUE), .groups = "drop") |>
   mutate(component = recode(variable,
-    natural_chg = "Natural change",
-    net_mig     = "Net migration"
+    natural_change = "Natural change",
+    net_migration  = "Net migration"
   ))
 
 ggplot(rural_comp, aes(x = year, y = value, fill = component)) +

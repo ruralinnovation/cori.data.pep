@@ -19,3 +19,4 @@ Character. Current vintage tag (e.g., \code{"vintage_2023"}).
 Reads the \verb{_LATEST} pointer written by \code{\link[=write_pep_processed_to_s3]{write_pep_processed_to_s3()}} and
 returns the vintage string (e.g., \code{"vintage_2023"}).
 }
+\keyword{internal}

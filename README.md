@@ -61,12 +61,3 @@ Three Census PEP vintages are handled internally:
 
 See [RELEASE_CALENDAR.md](RELEASE_CALENDAR.md) for vintage log and update schedule.
 
-## For CORI data engineers
-
-To refresh the S3 data after Census releases new estimates:
-
-```r
-write_pep_processed_to_s3(years = 2000:2025)
-```
-
-See `?write_pep_processed_to_s3` for options including `overwrite` and `s3_path_prefix` for testing.

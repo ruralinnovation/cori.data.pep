@@ -41,7 +41,6 @@
 #' @param years Integer vector. Years to return. Default: \code{2000} to current year.
 #'
 #' @keywords internal
-#' @export
 pull_population <- function(years = 2000:as.integer(format(Sys.Date(), "%Y"))) {
 
   results <- list()
@@ -139,7 +138,6 @@ pull_population <- function(years = 2000:as.integer(format(Sys.Date(), "%Y"))) {
 #' @param years Integer vector. Years to return. Must be 2007 or later.
 #'
 #' @keywords internal
-#' @export
 pull_pop_16plus <- function(years = 2007:as.integer(format(Sys.Date(), "%Y"))) {
 
   if (min(years) < 2007) stop("Age 16+ data only available from 2007 onward.")
@@ -249,7 +247,6 @@ pull_pop_16plus <- function(years = 2007:as.integer(format(Sys.Date(), "%Y"))) {
 #' @param years Integer vector. Years to return. Default: \code{2000} to current year.
 #'
 #' @keywords internal
-#' @export
 pull_components <- function(years = 2000:as.integer(format(Sys.Date(), "%Y"))) {
 
   results <- list()

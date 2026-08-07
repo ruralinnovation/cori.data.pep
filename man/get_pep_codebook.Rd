@@ -7,20 +7,21 @@
 get_pep_codebook()
 }
 \value{
-A data frame with columns: \code{variable}, \code{label}, \code{unit}, \code{nominal},
-\code{notes}.
+A data frame with columns: \code{variable}, \code{raw_variable}, \code{label},
+\code{unit}, \code{nominal}, \code{notes}.
+\code{raw_variable} is the original name stored in S3 parquet files.
 }
 \description{
-Returns documentation for all variables produced by the CORI PEP processing
-pipeline. All variables are available at three geographic levels: county
-(5-digit FIPS), state (2-digit FIPS), and national (\code{"00"}). State and
-national values are derived by summing the 50 states + DC; territories
-(Puerto Rico, etc.) are excluded.
+Returns documentation for all variables available via \code{\link[=get_population]{get_population()}} and
+\code{\link[=get_population_change]{get_population_change()}}. All variables are available at three geographic
+levels: county (5-digit FIPS), state (2-digit FIPS), and national (\code{"00"}).
+State and national values are derived by summing the 50 states + DC;
+territories (Puerto Rico, etc.) are excluded.
 }
 \examples{
 get_pep_codebook()
 
 }
 \seealso{
-\code{\link[=read_pep_from_s3]{read_pep_from_s3()}}
+\code{\link[=get_population]{get_population()}}, \code{\link[=get_population_change]{get_population_change()}}
 }

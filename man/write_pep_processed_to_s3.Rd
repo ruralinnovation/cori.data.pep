@@ -36,6 +36,6 @@ parquet files to S3. A \verb{_LATEST} pointer file is updated so
 \code{\link[=read_pep_from_s3]{read_pep_from_s3()}} can find the current vintage automatically.
 }
 \seealso{
-\code{\link[=read_pep_from_s3]{read_pep_from_s3()}}, \code{\link[=get_pep_codebook]{get_pep_codebook()}}
+\code{\link[=get_population]{get_population()}}, \code{\link[=get_pep_codebook]{get_pep_codebook()}}
 }
 \keyword{internal}
