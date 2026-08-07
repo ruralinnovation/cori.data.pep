@@ -4,3 +4,5 @@
 ^REFACTOR_STATE\.md$
 ^renv\.lock$
 ^\.git$
+^index\.qmd$
+^docs$
