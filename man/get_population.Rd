@@ -28,7 +28,9 @@ over \code{geography}. Default: \code{NULL} (all geographies).}
 \item{vintage}{Character. Vintage to read, e.g. \code{"2023"}. Default: \code{"latest"}.}
 }
 \value{
-A data frame with columns: \code{geoid}, \code{year}, \code{variable}, \code{value}.
+A data frame with columns: \code{geoid}, \code{year}, \code{variable}, \code{value},
+\code{agg_var}. \code{agg_var} is population / 1,000, suitable for population-weighted
+averaging.
 }
 \description{
 Returns total population and working-age population (16+) from the U.S.
