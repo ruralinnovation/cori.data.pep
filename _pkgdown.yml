@@ -1,0 +1,24 @@
+url: https://ruralinnovation.github.io/cori.data.pep
+
+template:
+  bootstrap: 5
+
+reference:
+- title: Population Estimates
+  contents:
+  - get_population
+  - get_population_change
+
+- title: Utilities
+  contents:
+  - get_pep_codebook
+  - read_pep_from_s3
+  - latest_pep_vintage
+
+- title: Internal
+  desc: Functions for data processing and maintenance
+  contents:
+  - pull_components
+  - pull_pop_16plus
+  - pull_population
+  - write_pep_processed_to_s3
