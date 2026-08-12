@@ -45,7 +45,9 @@
 #'   `"population_16plus"`. Default: both.
 #' @param vintage Character. Vintage to read, e.g. `"2023"`. Default: `"latest"`.
 #'
-#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`.
+#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`,
+#'   `agg_var`. `agg_var` is population / 1,000, suitable for population-weighted
+#'   averaging.
 #'
 #' @seealso [get_population_change()], [get_pep_codebook()]
 #'
@@ -116,7 +118,9 @@ get_population <- function(
 #'   `"international_migration"`, `"net_migration"`. Default: all.
 #' @param vintage Character. Vintage to read, e.g. `"2023"`. Default: `"latest"`.
 #'
-#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`.
+#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`,
+#'   `agg_var`. `agg_var` is population / 1,000, suitable for population-weighted
+#'   averaging.
 #'
 #' @seealso [get_population()], [get_pep_codebook()]
 #'
@@ -173,35 +177,47 @@ get_population_change <- function(
 }
 
 
-# Internal: shared S3 query for all get_pep_*() functions.
+#' Query PEP data from S3 via DuckDB
+#'
+#' Shared query engine for [get_population()] and [get_population_change()].
+#' Connects to S3 using [cori.data.s3::connect_to_s3()], builds a DuckDB query
+#' against hive-partitioned parquet files, and returns long-format results.
+#'
+#' @import DBI
+#' @importFrom cori.data.s3 connect_to_s3
+#'
+#' @param vintage Character. Vintage tag (e.g. `"2023"`) or `"latest"`.
+#' @param s3_variables Character vector. Variable names as stored in S3 parquet
+#'   files (before user-facing renaming).
+#' @param years Integer vector or `NULL`. Years to filter; `NULL` returns all.
+#' @param geoids Character vector or `NULL`. FIPS codes to filter; `NULL`
+#'   returns all.
+#' @param s3_bucket Character. S3 bucket name. Default: `"cori.data.pep"`.
+#' @param s3_path_prefix Character. Optional path prefix within bucket.
+#'   Default: `""`.
+#'
+#' @return A data frame with columns: `geoid`, `year`, `variable`, `value`,
+#'   `agg_var`.
+#'
+#' @keywords internal
 .query_pep_s3 <- function(vintage, s3_variables, years, geoids,
-                           s3_bucket = "cori.data.pep") {
+                           s3_bucket = "cori.data.pep", s3_path_prefix = "") {
   vintage_tag <- if (vintage == "latest") {
-    .latest_pep_vintage(s3_bucket)
+    .latest_pep_vintage(s3_bucket, s3_path_prefix)
   } else {
     if (!startsWith(vintage, "vintage_")) sprintf("vintage_%s", vintage) else vintage
   }
 
-  con <- DBI::dbConnect(duckdb::duckdb())
+  con <- cori.data.s3::connect_to_s3(s3_bucket)
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
-
-  DBI::dbExecute(con, "INSTALL httpfs; LOAD httpfs;")
-  DBI::dbExecute(con, "INSTALL aws;   LOAD aws;")
   DBI::dbExecute(con, sprintf("SET temp_directory = '%s';", tempdir()))
-  DBI::dbExecute(con, "CREATE OR REPLACE SECRET s3_secret (
-    TYPE S3,
-    PROVIDER CREDENTIAL_CHAIN,
-    CHAIN 'env;config',
-    REGION 'us-east-1',
-    URL_STYLE 'path'
-  );")
 
   glob  <- sprintf(
-    "s3://%s/data_processed/%s/**/*.parquet",
-    s3_bucket, vintage_tag
+    "s3://%s/%sdata_processed/%s/**/*.parquet",
+    s3_bucket, s3_path_prefix, vintage_tag
   )
   query <- sprintf(
-    "SELECT geoid, year, variable, value FROM read_parquet('%s', hive_partitioning = true)",
+    "SELECT geoid, year, variable, value, agg_var FROM read_parquet('%s', hive_partitioning = true)",
     glob
   )
 
@@ -219,9 +235,10 @@ get_population_change <- function(
 
   DBI::dbGetQuery(con, query) |>
     dplyr::mutate(
-      geoid = as.character(geoid),
-      year  = as.integer(year),
-      value = as.numeric(value)
+      geoid   = as.character(geoid),
+      year    = as.integer(year),
+      value   = as.numeric(value),
+      agg_var = as.numeric(agg_var)
     )
 }
 
