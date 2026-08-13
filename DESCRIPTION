@@ -28,7 +28,6 @@ Remotes:
     ruralinnovation/cori.data.s3
 Suggests:
     cori.charts,
-    cori.utils,
     ruraldefinitions,
     ggplot2,
     ggrepel,

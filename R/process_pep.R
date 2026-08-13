@@ -384,10 +384,10 @@ pull_components <- function(years = 2000:as.integer(format(Sys.Date(), "%Y"))) {
     tigris::counties(year = 2023) |> sf::st_drop_geometry()
   ) |>
     dplyr::left_join(
-      cori.utils::state_id_crosswalk |> dplyr::select(state_name, state_fips),
-      by = c("STATEFP" = "state_fips")
+      tigris::states(year = 2024) |> dplyr::select(NAME, STATEFP),
+      by = "STATEFP"
     ) |>
-    dplyr::mutate(name_co = paste0(NAMELSAD, ", ", state_name)) |>
+    dplyr::mutate(name_co = paste0(NAMELSAD, ", ", NAME)) |>
     dplyr::select(geoid = GEOID, name_co) |>
     dplyr::distinct()
 }
