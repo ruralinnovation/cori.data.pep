@@ -25,7 +25,9 @@ Imports:
     tidyr,
     utils
 Remotes:
-    ruralinnovation/cori.data.s3
+    ruralinnovation/cori.charts,
+    ruralinnovation/cori.data.s3,
+    ruralinnovation/ruraldefinitions
 Suggests:
     cori.charts,
     cori.utils,
