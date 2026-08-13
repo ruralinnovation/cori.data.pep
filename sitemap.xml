@@ -1,0 +1,23 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/404.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/LICENSE-text.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/REFACTOR_STATE.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/RELEASE_CALENDAR.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/articles/index.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/articles/introduction.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/articles/rural-population-trends.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/authors.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/index.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/dot-query_pep_s3.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/get_pep_codebook.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/get_population.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/get_population_change.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/index.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/latest_pep_vintage.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/pull_components.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/pull_pop_16plus.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/pull_population.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/read_pep_from_s3.html</loc></url>
+<url><loc>https://ruralinnovation.github.io/cori.data.pep/reference/write_pep_processed_to_s3.html</loc></url>
+</urlset>
+
