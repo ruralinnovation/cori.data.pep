@@ -1,4 +1,5 @@
-# cori.data.pep
+cori.data.pep
+=============
 
 Access and analyze U.S. Census Bureau Population Estimates Program (PEP) data at the county level from 2000 to present.
 
