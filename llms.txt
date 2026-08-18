@@ -5,8 +5,6 @@ data at the county level from 2000 to present.
 
 ## What’s in the package
 
-Eight variables, county-level, annual:
-
 | Variable            | Coverage     | Description                              |
 |---------------------|--------------|------------------------------------------|
 | `population`        | 2000–present | Total resident population                |
@@ -33,34 +31,24 @@ remotes::install_github("ruralinnovation/cori.data.pep")
 
 library(cori.data.pep)
 
-# All data, latest vintage
-df <- read_pep_from_s3()
+# Population, latest vintage
+df <- get_population()
 
-# Total population and migration, specific years
-df <- read_pep_from_s3(
-  variables = c("population", "net_mig"),
+# Net migration and births, specific years
+df <- get_population_change(
+  variables = c("births", "net_migration"),
   years     = 2010:2024
 )
 
 # Specific counties
-df <- read_pep_from_s3(
-  variables = c("domestic_mig", "international_mig"),
+df <- get_population_change(
+  variables = c("domestic_migration", "international_migration"),
   geoids    = c("54011", "54025")
 )
 
 # Variable documentation
 get_pep_codebook()
 ```
-
-## Data sources
-
-Three Census PEP vintages are handled internally:
-
-| Vintage      | URL                             |
-|--------------|---------------------------------|
-| 2000–2009    | Intercensal county estimates    |
-| 2010–2019    | Vintage 2019 county estimates   |
-| 2020–present | Latest vintage county estimates |
 
 See
 [RELEASE_CALENDAR.md](https://ruralinnovation.github.io/cori.data.pep/RELEASE_CALENDAR.md)

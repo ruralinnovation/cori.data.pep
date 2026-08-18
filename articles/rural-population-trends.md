@@ -71,14 +71,14 @@ communities since 2000.
 
 library(ruraldefinitions)
 
-rural_xwalk <- ruraldefinitions::cbsa_2023 |>
+rural_definition <- ruraldefinitions::cbsa_2023 |>
   select(geoid, is_rural)
 
 pop <- get_population(
   variables = "population",
   years     = 2000:2025
 ) |>
-  left_join(rural_xwalk, by = "geoid") |>
+  left_join(rural_definition, by = "geoid") |>
   filter(!is.na(is_rural)) |>
   group_by(year, is_rural) |>
   summarise(value = sum(value, na.rm = TRUE), .groups = "drop") |>
@@ -86,7 +86,7 @@ pop <- get_population(
   mutate(index = value / value[year == 2000] * 100) |>
   ungroup()
 
-ggplot(pop, aes(x = year, y = index, color = is_rural)) +
+fig_line <- ggplot(pop, aes(x = year, y = index, color = is_rural)) +
   geom_line(linewidth = 1.2) +
   geom_hline(yintercept = 100, color = "grey40", linewidth = 0.4, linetype = "dashed") +
   scale_color_manual(values = c(
@@ -106,6 +106,8 @@ ggplot(pop, aes(x = year, y = index, color = is_rural)) +
       "Rural classification: CORI CBSA 2023 definition."
     )
   )
+
+fig_line
 ```
 
 ## Natural change vs. migration — rural counties
@@ -121,7 +123,7 @@ rural_comp <- get_population_change(
   variables = c("natural_change", "net_migration"),
   years     = 2000:2025
 ) |>
-  left_join(rural_xwalk, by = "geoid") |>
+  left_join(rural_definition, by = "geoid") |>
   filter(is_rural == "Rural") |>
   group_by(year, variable) |>
   summarise(value = sum(value, na.rm = TRUE), .groups = "drop") |>
@@ -130,7 +132,7 @@ rural_comp <- get_population_change(
     net_migration  = "Net migration"
   ))
 
-ggplot(rural_comp, aes(x = year, y = value, fill = component)) +
+fig_bar <- ggplot(rural_comp, aes(x = year, y = value, fill = component)) +
   geom_col(position = "stack", width = 0.7) +
   geom_hline(yintercept = 0, color = "grey40", linewidth = 0.4) +
   scale_fill_manual(
@@ -154,4 +156,6 @@ ggplot(rural_comp, aes(x = year, y = value, fill = component)) +
       "Rural classification: CORI CBSA 2023 definition."
     )
   )
+
+fig_bar
 ```

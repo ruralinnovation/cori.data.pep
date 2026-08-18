@@ -1,8 +1,8 @@
 # Introduction to cori.data.pep
 
 `cori.data.pep` provides county-level population estimates from the U.S.
-Census Bureau’s Population Estimates Program (PEP), processed and stored
-in CORI’s S3 data lake. Data cover 2000–present at annual frequency.
+Census Bureau’s Population Estimates Program (PEP). Data cover
+2000–present at annual frequency.
 
 ## Variables
 
@@ -12,7 +12,12 @@ library(cori.data.pep)
 
 get_pep_codebook() |>
   dplyr::select(variable, label, coverage = notes) |>
-  knitr::kable()
+  gt::gt() |>
+  gt::cols_label(
+    variable = "Variable",
+    label = "Label",
+    coverage = "Coverage"
+  )
 ```
 
 ## Reading data
@@ -59,9 +64,9 @@ grafton_pop <- get_population(
   years     = 2000:2025
 )
 
-ggplot(grafton_pop, aes(x = year, y = value)) +
-  geom_line(color = cori_colors[["Dark Green"]], linewidth = 1.2) +
-  geom_point(color = cori_colors[["Dark Green"]], size = 2) +
+fig_line <- ggplot(grafton_pop, aes(x = year, y = value)) +
+  geom_line(color = cori_colors[["Emerald"]], linewidth = 1.2) +
+  geom_point(color = cori_colors[["Emerald"]], size = 2) +
   scale_x_continuous(breaks = seq(2000, 2025, by = 5)) +
   scale_y_continuous(labels = scales::label_comma()) +
   theme_cori() +
@@ -72,4 +77,6 @@ ggplot(grafton_pop, aes(x = year, y = value)) +
     y        = NULL,
     caption  = "Source: CORI analysis of U.S. Census Bureau Population Estimates Program (PEP)."
   )
+
+fig_line
 ```

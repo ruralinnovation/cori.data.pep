@@ -27,7 +27,7 @@
 
 | Vintage | Data covers | Captured | By | S3 path |
 |----|----|----|----|----|
-| vintage_2025 | 2000–2025 | 2026-04-09 | Drew | `s3://cori.data.pep/data_processed/vintage_2025/` |
+| vintage_2025 | 2000–2025 | 2026-04-09 | Drew Rosebush | `s3://cori.data.pep/data_processed/vintage_2025/` |
 
 *Add a new row each time a vintage is captured. Most recent at top.*
 
@@ -38,7 +38,7 @@
 | Field | Detail |
 |----|----|
 | **Expected release** | May/June 2025 (2024 estimates) |
-| **Responsible** | Drew |
+| **Responsible** | Drew Rosebush |
 | **Watch page** | <https://www.census.gov/programs-surveys/popest/about/schedule.html> |
 
 ------------------------------------------------------------------------

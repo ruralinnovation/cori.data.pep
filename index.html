@@ -58,8 +58,12 @@
 <div class="section level2">
 <h2 id="whats-in-the-package">What’s in the package<a class="anchor" aria-label="anchor" href="#whats-in-the-package"></a>
 </h2>
-<p>Eight variables, county-level, annual:</p>
 <table class="table">
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="50%">
+</colgroup>
 <thead><tr>
 <th>Variable</th>
 <th>Coverage</th>
@@ -122,48 +126,23 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ruralinnovation.github.io/cori.data.pep">cori.data.pep</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># All data, latest vintage</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_pep_from_s3.html">read_pep_from_s3</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Population, latest vintage</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_population.html">get_population</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Total population and migration, specific years</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_pep_from_s3.html">read_pep_from_s3</a></span><span class="op">(</span></span>
-<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"population"</span>, <span class="st">"net_mig"</span><span class="op">)</span>,</span>
+<span><span class="co"># Net migration and births, specific years</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_population_change.html">get_population_change</a></span><span class="op">(</span></span>
+<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"births"</span>, <span class="st">"net_migration"</span><span class="op">)</span>,</span>
 <span>  years     <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Specific counties</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_pep_from_s3.html">read_pep_from_s3</a></span><span class="op">(</span></span>
-<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"domestic_mig"</span>, <span class="st">"international_mig"</span><span class="op">)</span>,</span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_population_change.html">get_population_change</a></span><span class="op">(</span></span>
+<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"domestic_migration"</span>, <span class="st">"international_migration"</span><span class="op">)</span>,</span>
 <span>  geoids    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"54011"</span>, <span class="st">"54025"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Variable documentation</span></span>
 <span><span class="fu"><a href="reference/get_pep_codebook.html">get_pep_codebook</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="data-sources">Data sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
-</h2>
-<p>Three Census PEP vintages are handled internally:</p>
-<table class="table">
-<thead><tr>
-<th>Vintage</th>
-<th>URL</th>
-</tr></thead>
-<tbody>
-<tr>
-<td>2000–2009</td>
-<td>Intercensal county estimates</td>
-</tr>
-<tr>
-<td>2010–2019</td>
-<td>Vintage 2019 county estimates</td>
-</tr>
-<tr>
-<td>2020–present</td>
-<td>Latest vintage county estimates</td>
-</tr>
-</tbody>
-</table>
 <p>See <a href="RELEASE_CALENDAR.html">RELEASE_CALENDAR.md</a> for vintage log and update schedule.</p>
 </div>
 </div>
